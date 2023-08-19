@@ -140,11 +140,6 @@ div{
     color: currentColor;
 }
 
-
-.ingredient::before{
-    content: attr(data-name);
-}
-
 .ingredient:hover{
     overflow:unset;
     text-overflow: unset;
