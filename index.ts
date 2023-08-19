@@ -246,9 +246,11 @@ const pepper = new ModifierIngredient(Modifier.Spicy, "pepper", "https://cdn-ico
     }
 })
 const flour = new Ingredient("flour", "https://cdn-icons-png.flaticon.com/128/10738/10738997.png", null, "black")
-
+const egg = new Ingredient("egg", "https://cdn-icons-png.flaticon.com/128/487/487310.png", null, "black")
 const dough = new Ingredient("dough", "https://cdn-icons-png.flaticon.com/128/6717/6717362.png", null, "black")
 dough.setRecipe(water, flour)
+const pasta = new Ingredient("pasta", "https://cdn-icons-png.flaticon.com/128/8880/8880560.png", null, "black")
+pasta.setRecipe(egg, dough, bw)
 
 const rw = new Ingredient("raspberry water", "https://cdn-icons-png.flaticon.com/128/6106/6106801.png", null, "blue", {
     onCreate: el => {
@@ -272,11 +274,33 @@ const contamination = new Ingredient("contamination", null, "black", "red", {
         for (let item of playerIngredients) {
             item.getElement().remove()
         }
-        playerIngredients = [contamination]
+        
     }
 })
 
 contamination.setRecipe(garbage, water)
+const nw = new Ingredient("nuclear waste", "https://cdn-icons-png.flaticon.com/128/6002/6002980.png", null, "yellow", {
+    onCreate(el) {
+        alert("uh oh")
+    },
+})
+nw.setRecipe(contamination)
+
+const nb = new Ingredient("nuclear bomb", "https://cdn-icons-png.flaticon.com/128/1537/1537032.png", null, "yellow", {
+    onCreate(el) {
+        alert("the cia is watching")
+    },
+})
+nb.setRecipe(nw, nw)
+
+const nk = new Ingredient("north korea", "https://icons.iconarchive.com/icons/wikipedia/flags/128/KP-North-Korea-Flag-icon.png", null, "black", {
+    onCreate(el) {
+        alert("all hail kim jong-un")
+        const body = document.getElementById('body') as HTMLBodyElement
+        body.style.backgroundImage = "url(https://www.abflags.com/_flags/flags-of-the-world/Korea%2C%20North%20flag/Korea%2C%20North%20flag-XXL-anim.gif)"
+    },
+})
+nk.setRecipe(nb, nb)
 
 const rd = new Ingredient("raspberry dough", null, "white", "red", {
     onCreate: el => {
@@ -322,6 +346,35 @@ const mud = new Ingredient("mud", 'https://cdn-icons-png.flaticon.com/128/7756/7
 })
 
 mud.setRecipe(garbage, garbage)
+//garden stuff
+const dirt = new Ingredient("dirt", "https://cdn-icons-png.flaticon.com/128/7922/7922824.png", null, "white")
+dirt.setRecipe(mud, mud)
+const grass = new Ingredient("grass", "https://cdn-icons-png.flaticon.com/128/4683/4683517.png", null, "white")
+grass.setRecipe(dirt, water)
+const garden = new Ingredient("garden", "https://cdn-icons-png.flaticon.com/128/1518/1518965.png", null, "white", {
+    onCreate(el) {
+        alert("you grew your very own garden")
+    },
+})
+garden.setRecipe(grass, water, dirt)
+const seeds = new Ingredient("seeds", "https://cdn-icons-png.flaticon.com/128/1576/1576984.png", null, "black")
+seeds.setRecipe(rso, garden, water)
+const raspberry = new Ingredient("raspberry", "https://cdn-icons-png.flaticon.com/128/1542/1542487.png", null, "white")
+raspberry.setRecipe(rso, seeds, garden)
+const tomato = new Ingredient("tomato", "https://cdn-icons-png.flaticon.com/128/1202/1202125.png", null, "black", {
+    onCreate(el) {
+        alert("you've discovered a new mutation")
+    },
+})
+tomato.setRecipe(raspberry, garden, seeds, water)
+const spaghetti = new Ingredient("spaghetti", "https://cdn-icons-png.flaticon.com/128/3480/3480618.png", null, "white", {
+    onCreate(el) {
+        alert("you've made a delicious dish of spaghetti!! from garbage to this??")
+    },
+})
+spaghetti.setRecipe(tomato, pasta)
+//
+
 
 let lemonade = new Ingredient("lemonade", "https://cdn-icons-png.flaticon.com/128/753/753929.png", null, "black", {
     recipeCheck: ({ water, lemon, sugar }) => {
@@ -346,12 +399,13 @@ let items = {
     lemon: lemon,
     sugar,
     flour,
-    fire
+    fire,
+    egg
 }
 
 const ingredients = []
 
-let playerIngredients = [rso, flour, pepper, water, lemon, sugar, fire]
+let playerIngredients = [rso, flour, pepper, water, lemon, sugar, egg, fire]
 
 playerIngredients.push = new Proxy(playerIngredients.push, {
     apply(target, thisArg, argsList) {
@@ -407,5 +461,4 @@ craftButton.addEventListener("click", e => {
 })
 emptyButton.addEventListener("click", e => {
     bowl.replaceChildren("")
-    oven.replaceChildren("")
 })
