@@ -21,11 +21,11 @@ const pepper = new ModifierIngredient(Modifier.Spicy, "pepper", "https://cdn-ico
         return this.hasOneIngredient(ing) && this.ingredientDoesNotHaveModifier(ing[0])
     }
 })
-const flour = new Ingredient("flour", "https://cdn-icons-png.flaticon.com/128/10738/10738997.png", null, "black")
-const egg = new Ingredient("egg", "https://cdn-icons-png.flaticon.com/128/487/487310.png", null, "black")
-const dough = new Ingredient("dough", "https://cdn-icons-png.flaticon.com/128/6717/6717362.png", null, "black")
+const flour = new Ingredient("flour", "https://cdn-icons-png.flaticon.com/128/10738/10738997.png", null, "white")
+const egg = new Ingredient("egg", "https://cdn-icons-png.flaticon.com/128/487/487310.png", null, "white")
+const dough = new Ingredient("dough", "https://cdn-icons-png.flaticon.com/128/6717/6717362.png", null, "white")
 dough.setRecipe(water, flour)
-const pasta = new Ingredient("pasta", "https://cdn-icons-png.flaticon.com/128/8880/8880560.png", null, "black")
+const pasta = new Ingredient("pasta", "https://cdn-icons-png.flaticon.com/128/8880/8880560.png", null, "white")
 pasta.setRecipe(egg, dough, bw)
 
 const rw = new Ingredient("raspberry water", "https://cdn-icons-png.flaticon.com/128/6106/6106801.png", null, "blue", {
@@ -69,7 +69,7 @@ const nb = new Ingredient("nuclear bomb", "https://cdn-icons-png.flaticon.com/12
 })
 nb.setRecipe(nw, nw)
 
-const nk = new Ingredient("north korea", "https://icons.iconarchive.com/icons/wikipedia/flags/128/KP-North-Korea-Flag-icon.png", null, "black", {
+const nk = new Ingredient("north korea", "https://icons.iconarchive.com/icons/wikipedia/flags/128/KP-North-Korea-Flag-icon.png", null, "white", {
     onCreate(el) {
         alert("all hail kim jong-un")
         const body = document.getElementById('body') as HTMLBodyElement
@@ -94,7 +94,7 @@ const rc = new Ingredient("raspberry cookie", "https://cdn-icons-png.flaticon.co
 
 rc.setRecipe(rd)
 
-const lemon = new ModifierIngredient(Modifier.Sour, "lemon", "https://cdn-icons-png.flaticon.com/128/7484/7484115.png", null, "black", {
+const lemon = new ModifierIngredient(Modifier.Sour, "lemon", "https://cdn-icons-png.flaticon.com/128/7484/7484115.png", null, "white", {
     canModify: function (ing) {
         return this.hasOneIngredient(ing) && this.ingredientDoesNotHaveModifier(ing[0])
     }
@@ -106,7 +106,7 @@ const sugar = new ModifierIngredient(Modifier.Sweet, "sugar", "https://cdn-icons
     }
 })
 
-const soda = new Ingredient("soda", "https://cdn-icons-png.flaticon.com/128/9557/9557668.png", null, "black")
+const soda = new Ingredient("soda", "https://cdn-icons-png.flaticon.com/128/9557/9557668.png", null, "white")
 soda.setRecipe(sugar, water)
 
 const mud = new Ingredient("mud", 'https://cdn-icons-png.flaticon.com/128/7756/7756706.png', null, "white", {
@@ -127,11 +127,11 @@ const garden = new Ingredient("garden", "https://cdn-icons-png.flaticon.com/128/
     },
 })
 garden.setRecipe(grass, water, dirt)
-const seeds = new Ingredient("seeds", "https://cdn-icons-png.flaticon.com/128/1576/1576984.png", null, "black")
+const seeds = new Ingredient("seeds", "https://cdn-icons-png.flaticon.com/128/1576/1576984.png", null, "white")
 seeds.setRecipe(rso, garden, water)
 const raspberry = new Ingredient("raspberry", "https://cdn-icons-png.flaticon.com/128/1542/1542487.png", null, "white")
 raspberry.setRecipe(rso, seeds, garden)
-const tomato = new Ingredient("tomato", "https://cdn-icons-png.flaticon.com/128/1202/1202125.png", null, "black", {
+const tomato = new Ingredient("tomato", "https://cdn-icons-png.flaticon.com/128/1202/1202125.png", null, "white", {
     onCreate(el) {
         alert("you've discovered a new mutation")
     },

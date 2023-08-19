@@ -130,7 +130,7 @@ class Ingredient {
         element.setAttribute("data-name", this.getDisplayName())
 
 
-        element.innerHTML = this.getDisplayName()
+        // element.innerHTML = this.getDisplayName()
 
         this.#element = element
         return element
