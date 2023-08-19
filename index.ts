@@ -44,13 +44,15 @@ type IngredientRecipe = [Ingredient, Ingredient] | null
 enum Modifier {
     Spicy,
     Sour,
-    Sweet
+    Sweet,
+    Boiled
 }
 
 const ModifierNames = {
     [Modifier.Spicy]: "spicy",
     [Modifier.Sour]: "sour",
-    [Modifier.Sweet]: "sweet"
+    [Modifier.Sweet]: "sweet",
+    [Modifier.Boiled]: "boiled",
 }
 
 type IngredientHooks = {
@@ -103,7 +105,6 @@ class Ingredient {
         }
         if (this.pure) {
             for (let ing of ingList) {
-                console.log(ing.modifiers)
                 if (ing.modifiers.length) return false
             }
         }
@@ -117,8 +118,7 @@ class Ingredient {
 
     create() {
         let dispName = this.getDisplayName()
-        console.log(dispName)
-        if(this.hooks?.onCreate)
+        if (this.hooks?.onCreate)
             this.hooks.onCreate(this.getElement())
         else alert(`You have crafted ${dispName}`)
         if (!items[dispName as keyof typeof items]) {
@@ -141,7 +141,7 @@ class Ingredient {
         }
         let element = document.createElement("div")
         element.classList.add("ingredient")
-        element.setAttribute("data-name", this.name)
+        element.setAttribute("data-name", this.getDisplayName())
         if (this.recipe?.length) {
             let recipieElement = document.createElement("span")
             element.append(recipieElement)
@@ -164,7 +164,7 @@ class Ingredient {
                 draggedElement = null
             }, 300)
         })
-        element.setAttribute("data-name", this.name)
+        element.setAttribute("data-name", this.getDisplayName())
 
 
         element.innerHTML = this.getDisplayName()
@@ -213,8 +213,16 @@ bowl?.addEventListener("mouseover", e => {
 
 const rso = new Ingredient("raspberry seed oil", null, "red")
 const water = new Ingredient("water", null, "blue", "white")
+const fire = new ModifierIngredient(Modifier.Boiled, "fire", null, "orange", "white", {
+    canModify: function (ing) {
+        if (ing.length !== 1) return false
+        let i = ing[0]
+        if (i.modifiers.includes(this.modifier)) return false
+        return true
+    }
+})
 const pepper = new ModifierIngredient(Modifier.Spicy, "pepper", null, 'black', "white", {
-    canModify: function(ing) {
+    canModify: function (ing) {
         if (ing.length !== 1) return false
         let i = ing[0]
         if (i.modifiers.includes(this.modifier)) return false
@@ -271,7 +279,7 @@ const rc = new Ingredient("raspberry cookie", null, "brown", "red", {
 rc.setRecipe(rd)
 
 const lemon = new ModifierIngredient(Modifier.Sour, "lemon", null, "yellow", "black", {
-    canModify: function(ing) {
+    canModify: function (ing) {
         if (ing.length !== 1) return false
         let i = ing[0]
         if (i.modifiers.includes(this.modifier)) return false
@@ -280,7 +288,7 @@ const lemon = new ModifierIngredient(Modifier.Sour, "lemon", null, "yellow", "bl
 })
 
 const sugar = new ModifierIngredient(Modifier.Sweet, "sugar", null, "white", "black", {
-    canModify: function(ing) {
+    canModify: function (ing) {
         if (ing.length !== 1) return false
         let i = ing[0]
         if (i.modifiers.includes(this.modifier)) return false
@@ -312,6 +320,8 @@ let lemonade = new Ingredient("lemonade", null, "yellow", "black", {
 })
 lemonade.setRecipe(water, lemon, sugar)
 
+
+
 let items = {
     "raspberry seed oil": rso,
     pepper: pepper,
@@ -320,11 +330,12 @@ let items = {
     lemon: lemon,
     sugar,
     flour,
+    fire
 }
 
 const ingredients = []
 
-let playerIngredients = [rso, flour, pepper, water, lemon, sugar]
+let playerIngredients = [rso, flour, pepper, water, lemon, sugar, fire]
 
 playerIngredients.push = new Proxy(playerIngredients.push, {
     apply(target, thisArg, argsList) {
