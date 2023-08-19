@@ -246,8 +246,22 @@ oven?.addEventListener("mouseover", e => {
 const rso = new Ingredient("raspberry seed oil", "https://cdn-icons-png.flaticon.com/128/6866/6866609.png", null, "white")
 const water = new Ingredient("water", "https://cdn-icons-png.flaticon.com/128/3105/3105807.png", null, "white")
 const fire = new Ingredient("fire", "https://cdn-icons-png.flaticon.com/128/426/426833.png", null, "white")
-const bw = new ModifierIngredient(Modifier.Boiled, "boiling water", "https://cdn-icons-png.flaticon.com/128/3387/3387974.png", null, "orange")
-const ov = new ModifierIngredient(Modifier.Cooked, "oven", null, null, null)
+const bw = new ModifierIngredient(Modifier.Boiled, "boiling water", "https://cdn-icons-png.flaticon.com/128/3387/3387974.png", null, "orange", {
+    canModify: function(ing){
+        if (ing.length !== 1) return false
+        let i = ing[0]
+        if (i.modifiers.includes(this.modifier)) return false
+        return true
+    }
+})
+const ov = new ModifierIngredient(Modifier.Cooked, "oven", null, null, null, {
+    canModify: function(ing){
+        if (ing.length !== 1) return false
+        let i = ing[0]
+        if (i.modifiers.includes(this.modifier)) return false
+        return true
+    }
+})
 bw.setRecipe(fire, water)
 const pepper = new ModifierIngredient(Modifier.Spicy, "pepper", "https://cdn-icons-png.flaticon.com/128/3003/3003814.png", null, "white", {
     canModify: function (ing) {
