@@ -1,9 +1,17 @@
 let draggedElement: null | HTMLElement
 let movedElement: null | HTMLElement
-
 const itemSearch = document.getElementById("item-search") as HTMLInputElement
-
 const ingredientHolder = document.getElementById("ingredient-holder") as HTMLDivElement
+const alertDiv = document.getElementById("alert-text") as HTMLDivElement
+const oven = document.getElementById('oven') as HTMLDivElement
+
+function alert(message: string) {
+    const span = document.createElement('span')
+    span.setAttribute("class", "success-text")
+    span.innerText = message
+    span.style.animation = "fadeIn 3.0s"
+    alertDiv.appendChild(span)
+}
 
 itemSearch.addEventListener("input", e => {
     let regex = /./
@@ -45,7 +53,8 @@ enum Modifier {
     Spicy,
     Sour,
     Sweet,
-    Boiled
+    Boiled,
+    Cooked,
 }
 
 const ModifierNames = {
@@ -53,6 +62,7 @@ const ModifierNames = {
     [Modifier.Sour]: "sour",
     [Modifier.Sweet]: "sweet",
     [Modifier.Boiled]: "boiled",
+    [Modifier.Cooked]: "cooked"
 }
 
 type IngredientHooks = {
@@ -64,7 +74,7 @@ class Ingredient {
     pure: boolean = true
     name: string
     image: string | null
-    color: string
+    color: string | null
     textColor: string | null
     #element: HTMLDivElement | undefined
     recipe: Ingredient[] | null
@@ -72,7 +82,7 @@ class Ingredient {
     modifiers: Modifier[]
     hooks?: IngredientHooks
 
-    constructor(name: string, image: string | null, color: string, textColor?: string | null, hooks?: IngredientHooks) {
+    constructor(name: string, image: string | null, color: string | null, textColor?: string | null, hooks?: IngredientHooks) {
         this.image = image
         this.name = name
         this.color = color
@@ -154,7 +164,7 @@ class Ingredient {
         if (this.textColor) {
             element.style.color = this.textColor
         }
-        element.style.backgroundColor = this.color
+        element.style.backgroundColor = this.color ?? ""
         element.draggable = true
         element.addEventListener("dragstart", e => {
             draggedElement = element
@@ -185,7 +195,7 @@ type ModifierIngredientHooks = IngredientHooks & {
 class ModifierIngredient extends Ingredient {
     modifier: Modifier
     hooks?: ModifierIngredientHooks
-    constructor(modifier: Modifier, name: string, image: string | null, color: string, textColor: string | null, hooks?: ModifierIngredientHooks) {
+    constructor(modifier: Modifier, name: string, image: string | null, color: string | null, textColor: string | null, hooks?: ModifierIngredientHooks) {
         super(name, image, color, textColor, hooks)
         this.modifier = modifier
         this.hooks = hooks
@@ -211,30 +221,36 @@ bowl?.addEventListener("mouseover", e => {
     draggedElement = null
 })
 
-const rso = new Ingredient("raspberry seed oil", null, "red")
-const water = new Ingredient("water", null, "blue", "white")
-const fire = new ModifierIngredient(Modifier.Boiled, "fire", null, "orange", "white", {
-    canModify: function (ing) {
-        if (ing.length !== 1) return false
-        let i = ing[0]
-        if (i.modifiers.includes(this.modifier)) return false
-        return true
-    }
+oven?.addEventListener("mouseover", e => {
+    if (!draggedElement) { return }
+    let clone = draggedElement?.cloneNode(true) as HTMLDivElement
+    clone.addEventListener("click", e => {
+        clone.remove()
+    })
+    oven.appendChild(clone)
+    draggedElement = null
 })
-const pepper = new ModifierIngredient(Modifier.Spicy, "pepper", null, 'black', "white", {
-    canModify: function (ing) {
-        if (ing.length !== 1) return false
-        let i = ing[0]
-        if (i.modifiers.includes(this.modifier)) return false
-        return true
-    }
-})
-const flour = new Ingredient("flour", null, "white", "black")
 
-const dough = new Ingredient("dough", null, "tan", "black")
+const rso = new Ingredient("raspberry seed oil", "https://cdn-icons-png.flaticon.com/128/6866/6866609.png", null, "white")
+const water = new Ingredient("water", "https://cdn-icons-png.flaticon.com/128/3105/3105807.png", null, "white")
+const fire = new Ingredient("fire", "https://cdn-icons-png.flaticon.com/128/426/426833.png", null, "white")
+const bw = new ModifierIngredient(Modifier.Boiled, "boiling water", "https://cdn-icons-png.flaticon.com/128/3387/3387974.png", null, "orange")
+const ov = new ModifierIngredient(Modifier.Cooked, "oven", null, null, null)
+bw.setRecipe(fire, water)
+const pepper = new ModifierIngredient(Modifier.Spicy, "pepper", "https://cdn-icons-png.flaticon.com/128/3003/3003814.png", null, "white", {
+    canModify: function (ing) {
+        if (ing.length !== 1) return false
+        let i = ing[0]
+        if (i.modifiers.includes(this.modifier)) return false
+        return true
+    }
+})
+const flour = new Ingredient("flour", "https://cdn-icons-png.flaticon.com/128/10738/10738997.png", null, "black")
+
+const dough = new Ingredient("dough", "https://cdn-icons-png.flaticon.com/128/6717/6717362.png", null, "black")
 dough.setRecipe(water, flour)
 
-const rw = new Ingredient("raspberry water", null, "red", "blue", {
+const rw = new Ingredient("raspberry water", "https://cdn-icons-png.flaticon.com/128/6106/6106801.png", null, "blue", {
     onCreate: el => {
         el.addEventListener("contextmenu", e => {
             e.preventDefault()
@@ -244,7 +260,7 @@ const rw = new Ingredient("raspberry water", null, "red", "blue", {
 })
 rw.setRecipe(rso, water)
 
-const garbage = new Ingredient("garbage", null, "green", "white", {
+const garbage = new Ingredient("garbage", "https://cdn-icons-png.flaticon.com/128/9306/9306132.png", null, "green", {
     onCreate: el => {
         alert(`You created ${el.getAttribute("data-name")}!!!`)
     }
@@ -270,7 +286,7 @@ const rd = new Ingredient("raspberry dough", null, "white", "red", {
 
 rd.setRecipe(rw, flour)
 
-const rc = new Ingredient("raspberry cookie", null, "brown", "red", {
+const rc = new Ingredient("raspberry cookie", "https://cdn-icons-png.flaticon.com/128/2001/2001244.png", null, "red", {
     onCreate: el => {
         alert("just like grandma used to make ❤️")
     }
@@ -278,7 +294,7 @@ const rc = new Ingredient("raspberry cookie", null, "brown", "red", {
 
 rc.setRecipe(rd)
 
-const lemon = new ModifierIngredient(Modifier.Sour, "lemon", null, "yellow", "black", {
+const lemon = new ModifierIngredient(Modifier.Sour, "lemon", "https://cdn-icons-png.flaticon.com/128/7484/7484115.png", null, "black", {
     canModify: function (ing) {
         if (ing.length !== 1) return false
         let i = ing[0]
@@ -287,7 +303,7 @@ const lemon = new ModifierIngredient(Modifier.Sour, "lemon", null, "yellow", "bl
     }
 })
 
-const sugar = new ModifierIngredient(Modifier.Sweet, "sugar", null, "white", "black", {
+const sugar = new ModifierIngredient(Modifier.Sweet, "sugar", "https://cdn-icons-png.flaticon.com/128/5029/5029280.png", null, "white", {
     canModify: function (ing) {
         if (ing.length !== 1) return false
         let i = ing[0]
@@ -296,10 +312,10 @@ const sugar = new ModifierIngredient(Modifier.Sweet, "sugar", null, "white", "bl
     }
 })
 
-const soda = new Ingredient("soda", null, "navajowhite", "black")
+const soda = new Ingredient("soda", "https://cdn-icons-png.flaticon.com/128/9557/9557668.png", null, "black")
 soda.setRecipe(sugar, water)
 
-const mud = new Ingredient("mud", null, "#462100", "white", {
+const mud = new Ingredient("mud", 'https://cdn-icons-png.flaticon.com/128/7756/7756706.png', null, "white", {
     onCreate: el => {
         alert("that's a lot of garbage")
     }
@@ -307,7 +323,7 @@ const mud = new Ingredient("mud", null, "#462100", "white", {
 
 mud.setRecipe(garbage, garbage)
 
-let lemonade = new Ingredient("lemonade", null, "yellow", "black", {
+let lemonade = new Ingredient("lemonade", "https://cdn-icons-png.flaticon.com/128/753/753929.png", null, "black", {
     recipeCheck: ({ water, lemon, sugar }) => {
         if (water?.hasModifier(Modifier.Sour) && !lemon && sugar) {
             return true
@@ -352,9 +368,16 @@ for (let ing of playerIngredients) {
 }
 
 craftButton.addEventListener("click", e => {
+    let device
     let ingElements = bowl.querySelectorAll(".ingredient") as NodeListOf<HTMLDivElement>
+    if (ingElements.length < 1) {
+        ingElements = oven.querySelectorAll(".ingredient")
+        device = oven
+    } else device = bowl
     let usedIngredients = Array.from(ingElements, v => items[v.getAttribute("data-name") as keyof typeof items])
+    console.log(usedIngredients)
     let craftedItems: Ingredient[] = []
+    if (device === oven) usedIngredients.unshift(ov)
 
     for (let item of usedIngredients) {
         if (item instanceof ModifierIngredient) {
@@ -384,4 +407,5 @@ craftButton.addEventListener("click", e => {
 })
 emptyButton.addEventListener("click", e => {
     bowl.replaceChildren("")
+    oven.replaceChildren("")
 })

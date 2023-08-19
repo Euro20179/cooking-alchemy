@@ -1,20 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="main.css">
 </head>
+
 <body class="body">
     <div class="heading">
         <span class="heading-text">Euro & Tool's Marvelous Kitchen :)</span>
+    </div>
+    <div class="alert" id="alert-text">
     </div>
     <div id="ingredient-holder" class="ingredients">
         <input type="search" placeholder="search" id="item-search">
     </div>
     <div id="bowl-container">
-        <div id="bowl"></div>
+        <div class="containers">
+            <div id="bowl"></div>
+            <div id="oven"><img src="https://www.veryicon.com/download/png/food--drinks/kitchenware-1/oven-10?s=256">
+            </div>
+        </div>
         <div id="button-actions">
             <button type="submit" id="craft-button">Craft</button>
             <button type="submit" id="empty-button">Empty</button>
@@ -22,4 +30,5 @@
     </div>
 </body>
 <script src="index.js"></script>
+
 </html>
