@@ -25,6 +25,39 @@ div {
     bottom: 90%;
 }
 
+.alert {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.success-text {
+    position: absolute;
+    text-align: center;
+    bottom: 80%;
+    font-size: 45px;
+    animation: fadeIn 2.5;
+    visibility: hidden;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        bottom: 80%;
+    }
+
+    90% {
+        visibility: visible;
+        opacity: 1;
+        bottom: 84%;
+    }
+
+    100% {
+        bottom: 84%;
+        opacity: 0;
+    }
+}
+
 
 #bowl-container {
     display: flex;
@@ -35,6 +68,13 @@ div {
     flex-direction: column;
     gap: 3em;
 }
+
+.containers {
+    display: flex;
+    gap: 3em;
+    align-items: center;
+}
+
 
 #craft-button {
     max-width: 15ch;
@@ -99,6 +139,11 @@ div {
     grid-template-rows: repeat(3, 1fr);
     justify-items: center;
     background-image: url("https://media.istockphoto.com/id/185071482/photo/brushed-metal-background.jpg?s=612x612&w=0&k=20&c=yWaGSvjDevBUNSWx3_u-JF9YOnYvZUoASGmAtVlJAnI=");
+}
+
+
+#oven {
+    width: fit-content;
 }
 
 @keyframes spin {
