@@ -164,4 +164,12 @@ class ModifierIngredient extends Ingredient {
         copy.setRecipe(this, ...ing)
         return copy
     }
+
+    hasOneIngredient(ing: Ingredient[]){
+        return ing.length === 1
+    }
+
+    ingredientDoesNotHaveModifier(ing: Ingredient){
+        return !ing.modifiers.includes(this.modifier)
+    }
 }

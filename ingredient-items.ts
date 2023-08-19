@@ -1,29 +1,24 @@
 const rso = new Ingredient("raspberry seed oil", "https://cdn-icons-png.flaticon.com/128/6866/6866609.png", null, "white")
+
 const water = new Ingredient("water", "https://cdn-icons-png.flaticon.com/128/3105/3105807.png", null, "white")
+
 const fire = new Ingredient("fire", "https://cdn-icons-png.flaticon.com/128/426/426833.png", null, "white")
+
 const bw = new ModifierIngredient(Modifier.Boiled, "boiling water", "https://cdn-icons-png.flaticon.com/128/3387/3387974.png", null, "orange", {
     canModify: function(ing){
-        if (ing.length !== 1) return false
-        let i = ing[0]
-        if (i.modifiers.includes(this.modifier)) return false
-        return true
+        return this.hasOneIngredient(ing) && this.ingredientDoesNotHaveModifier(ing[0])
     }
 })
+
 const ov = new ModifierIngredient(Modifier.Cooked, "oven", null, null, null, {
     canModify: function(ing){
-        if (ing.length !== 1) return false
-        let i = ing[0]
-        if (i.modifiers.includes(this.modifier)) return false
-        return true
+        return this.hasOneIngredient(ing) && this.ingredientDoesNotHaveModifier(ing[0])
     }
 })
 bw.setRecipe(fire, water)
 const pepper = new ModifierIngredient(Modifier.Spicy, "pepper", "https://cdn-icons-png.flaticon.com/128/3003/3003814.png", null, "white", {
     canModify: function (ing) {
-        if (ing.length !== 1) return false
-        let i = ing[0]
-        if (i.modifiers.includes(this.modifier)) return false
-        return true
+        return this.hasOneIngredient(ing) && this.ingredientDoesNotHaveModifier(ing[0])
     }
 })
 const flour = new Ingredient("flour", "https://cdn-icons-png.flaticon.com/128/10738/10738997.png", null, "black")
@@ -101,19 +96,13 @@ rc.setRecipe(rd)
 
 const lemon = new ModifierIngredient(Modifier.Sour, "lemon", "https://cdn-icons-png.flaticon.com/128/7484/7484115.png", null, "black", {
     canModify: function (ing) {
-        if (ing.length !== 1) return false
-        let i = ing[0]
-        if (i.modifiers.includes(this.modifier)) return false
-        return true
+        return this.hasOneIngredient(ing) && this.ingredientDoesNotHaveModifier(ing[0])
     }
 })
 
 const sugar = new ModifierIngredient(Modifier.Sweet, "sugar", "https://cdn-icons-png.flaticon.com/128/5029/5029280.png", null, "white", {
     canModify: function (ing) {
-        if (ing.length !== 1) return false
-        let i = ing[0]
-        if (i.modifiers.includes(this.modifier)) return false
-        return true
+        return this.hasOneIngredient(ing) && this.ingredientDoesNotHaveModifier(ing[0])
     }
 })
 
