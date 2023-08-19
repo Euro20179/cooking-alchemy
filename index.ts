@@ -13,6 +13,7 @@ function alert(message: string) {
     span.style.animation = "fadeIn 3.0s"
     alertDiv.appendChild(span)
 }
+
 function setCounter(count: string) {
     counter.innerText = count
 }

@@ -19,15 +19,10 @@ div {
 }
 
 .heading-text {
-    position: absolute;
+    position: fixed;
     text-align: center;
     font-size: 40px;
     bottom: 90%;
-}
-
-#count {
-    bottom: 92%;
-    left: 80%;
 }
 
 .alert {
