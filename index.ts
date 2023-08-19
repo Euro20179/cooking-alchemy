@@ -4,6 +4,9 @@ const itemSearch = document.getElementById("item-search") as HTMLInputElement
 const ingredientHolder = document.getElementById("ingredient-holder") as HTMLDivElement
 const alertDiv = document.getElementById("alert-text") as HTMLDivElement
 const oven = document.getElementById('oven') as HTMLDivElement
+const counter = document.getElementById('count') as HTMLSpanElement
+
+
 
 function alert(message: string) {
     const span = document.createElement('span')
@@ -11,6 +14,9 @@ function alert(message: string) {
     span.innerText = message
     span.style.animation = "fadeIn 3.0s"
     alertDiv.appendChild(span)
+}
+function setCounter(count: string) {
+    counter.innerText = count
 }
 
 itemSearch.addEventListener("input", e => {
@@ -81,8 +87,10 @@ class Ingredient {
     creates: [Ingredient[], Ingredient][]
     modifiers: Modifier[]
     hooks?: IngredientHooks
+    static count = 0
 
     constructor(name: string, image: string | null, color: string | null, textColor?: string | null, hooks?: IngredientHooks) {
+        Ingredient.count++
         this.image = image
         this.name = name
         this.color = color
@@ -195,7 +203,9 @@ type ModifierIngredientHooks = IngredientHooks & {
 class ModifierIngredient extends Ingredient {
     modifier: Modifier
     hooks?: ModifierIngredientHooks
+    static count = 0
     constructor(modifier: Modifier, name: string, image: string | null, color: string | null, textColor: string | null, hooks?: ModifierIngredientHooks) {
+        ModifierIngredient.count++
         super(name, image, color, textColor, hooks)
         this.modifier = modifier
         this.hooks = hooks
@@ -210,6 +220,8 @@ class ModifierIngredient extends Ingredient {
         return copy
     }
 }
+
+
 
 bowl?.addEventListener("mouseover", e => {
     if (!draggedElement) { return }
@@ -274,7 +286,7 @@ const contamination = new Ingredient("contamination", null, "black", "red", {
         for (let item of playerIngredients) {
             item.getElement().remove()
         }
-        
+
     }
 })
 
@@ -456,9 +468,11 @@ craftButton.addEventListener("click", e => {
     for (let item of craftedItems) {
         playerIngredients.push(item)
     }
-
-
+    setCounter(`${ingredientHolder.querySelectorAll('.ingredient').length}/${Ingredient.count + ModifierIngredient.count} ingredients`)
 })
 emptyButton.addEventListener("click", e => {
     bowl.replaceChildren("")
+    oven.replaceChildren("")
 })
+setCounter(`${ingredientHolder.querySelectorAll('.ingredient').length}/${Ingredient.count + ModifierIngredient.count} ingredients`)
+
