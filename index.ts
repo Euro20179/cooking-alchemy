@@ -415,6 +415,11 @@ let lemonade = new Ingredient("lemonade", "https://cdn-icons-png.flaticon.com/12
 })
 lemonade.setRecipe(water, lemon, sugar)
 
+let cookieDough = new Ingredient("cookie dough", 'https://cdn-icons-png.flaticon.com/128/4126/4126009.png', "tan", "black")
+cookieDough.setRecipe(dough, sugar)
+
+let cookie = new Ingredient("cookie", 'https://cdn-icons-png.flaticon.com/128/541/541732.png', "tan", "black")
+cookie.setRecipe(ov, cookieDough)
 
 
 let items = {
@@ -455,7 +460,6 @@ craftButton.addEventListener("click", e => {
         device = oven
     } else device = bowl
     let usedIngredients = Array.from(ingElements, v => items[v.getAttribute("data-name") as keyof typeof items])
-    console.log(usedIngredients)
     let craftedItems: Ingredient[] = []
     if (device === oven) usedIngredients.unshift(ov)
 
