@@ -103,7 +103,6 @@ class Ingredient {
         }
         if (this.pure) {
             for (let ing of ingList) {
-                console.log(ing.modifiers)
                 if (ing.modifiers.length) return false
             }
         }
@@ -117,7 +116,6 @@ class Ingredient {
 
     create() {
         let dispName = this.getDisplayName()
-        console.log(dispName)
         if(this.hooks?.onCreate)
             this.hooks.onCreate(this.getElement())
         else alert(`You have crafted ${dispName}`)
@@ -141,7 +139,7 @@ class Ingredient {
         }
         let element = document.createElement("div")
         element.classList.add("ingredient")
-        element.setAttribute("data-name", this.name)
+        element.setAttribute("data-name", this.getDisplayName())
         if (this.recipe?.length) {
             let recipieElement = document.createElement("span")
             element.append(recipieElement)
@@ -164,7 +162,7 @@ class Ingredient {
                 draggedElement = null
             }, 300)
         })
-        element.setAttribute("data-name", this.name)
+        element.setAttribute("data-name", this.getDisplayName())
 
 
         element.innerHTML = this.getDisplayName()
