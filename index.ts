@@ -47,13 +47,20 @@ itemSearch.addEventListener("input", e => {
     })
 })
 
+document.addEventListener("keydown", e => {
+    if(e.key === "/"){
+        itemSearch.focus()
+        e.preventDefault()
+        itemSearch.value = ""
+    }
+})
+
 const bowl = document.getElementById('bowl') as HTMLDivElement
 
 const craftButton = document.getElementById("craft-button") as HTMLButtonElement
 const emptyButton = document.getElementById("empty-button") as HTMLButtonElement
 
-
-bowl?.addEventListener("mouseover", e => {
+function deviceHoverListener(e: MouseEvent){
     if (!draggedElement) { return }
     let clone = draggedElement?.cloneNode(true) as HTMLDivElement
     clone.addEventListener("click", e => {
@@ -61,17 +68,11 @@ bowl?.addEventListener("mouseover", e => {
     })
     bowl.appendChild(clone)
     draggedElement = null
-})
+}
 
-oven?.addEventListener("mouseover", e => {
-    if (!draggedElement) { return }
-    let clone = draggedElement?.cloneNode(true) as HTMLDivElement
-    clone.addEventListener("click", e => {
-        clone.remove()
-    })
-    oven.appendChild(clone)
-    draggedElement = null
-})
+
+bowl?.addEventListener("mouseover", deviceHoverListener)
+oven?.addEventListener("mouseover", deviceHoverListener)
 
 const ingredients = []
 
