@@ -129,6 +129,14 @@ const garden = new Ingredient("garden", "https://cdn-icons-png.flaticon.com/128/
 garden.setRecipe(grass, water, dirt)
 const seeds = new Ingredient("seeds", "https://cdn-icons-png.flaticon.com/128/1576/1576984.png", null, "white")
 seeds.setRecipe(rso, garden, water)
+const aliveChicken = new Ingredient("alive chicken", "https://cdn-icons-png.flaticon.com/128/2002/2002616.png", null, "white", {
+    onCreate(el) {
+        alert("you grew your very own chicken!!")
+    },
+})
+aliveChicken.setRecipe(garden, egg)
+const chicken = new Ingredient("chicken", "https://cdn-icons-png.flaticon.com/128/1895/1895698.png", null, "black")
+chicken.setRecipe(ov, chicken)
 const raspberry = new Ingredient("raspberry", "https://cdn-icons-png.flaticon.com/128/1542/1542487.png", null, "white")
 raspberry.setRecipe(rso, seeds, garden)
 const tomato = new Ingredient("tomato", "https://cdn-icons-png.flaticon.com/128/1202/1202125.png", null, "white", {

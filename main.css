@@ -177,6 +177,7 @@ div {
     align-items: center;
     overflow-y: scroll;
     gap: 3em;
+    padding-bottom: 50px;
 }
 
 .ingredient {
@@ -219,12 +220,43 @@ div {
     display: flex;
 }
 
-.ingredient:hover::before{
+.ingredient:hover::before {
     position: absolute;
     border-bottom: 1px solid;
     padding: 0.3em;
     top: 100%;
     content: attr(data-name);
+}
+
+.final-ingredients {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    min-width: 220px;
+    min-height: 100%;
+    width: fit-content;
+    height: fit-content;
+    background-color: #aaaaaa33;
+    position: absolute;
+    cursor: pointer;
+    right: -220px;
+    transition: 0.5s;
+    gap: 3em;
+    overflow: visible;
+}
+
+.arrow {
+    position: absolute;
+    font-size: 100px;
+    right: 100%;
+    width: 90px;
+    top: 40%; 
+}
+
+.final-ingredients:hover {
+    right: 0px;
 }
 
 .hidden {
