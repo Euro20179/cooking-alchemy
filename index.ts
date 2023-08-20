@@ -65,8 +65,8 @@ function deviceHoverListener(e: MouseEvent){
     let clone = draggedElement?.cloneNode(true) as HTMLDivElement
     clone.addEventListener("click", e => {
         clone.remove()
-    })
-    bowl.appendChild(clone)
+    });
+    (e.target as HTMLDivElement).appendChild(clone)
     draggedElement = null
 }
 
