@@ -145,6 +145,13 @@ div {
     min-width: 256px;
     min-height: 256px;
     background-image: url("https://www.veryicon.com/download/png/food--drinks/kitchenware-1/oven-10?s=256");
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    background-image: no-repeat;
+    width: fit-content;
+    background-size: cover;
+    height: fit-content;
 }
 
 @keyframes spin {
