@@ -78,7 +78,7 @@ const nk = new Ingredient("north korea", "https://icons.iconarchive.com/icons/wi
 })
 nk.setRecipe(nb, nb)
 
-const rd = new Ingredient("raspberry dough", null, "white", "red", {
+const rd = new Ingredient("raspberry dough", "https://cdn-icons-png.flaticon.com/128/9273/9273839.png", null, "red", {
     onCreate: el => {
         alert("yummy 😁")
     }
@@ -136,6 +136,12 @@ const tomato = new Ingredient("tomato", "https://cdn-icons-png.flaticon.com/128/
         alert("you've discovered a new mutation")
     },
 })
+const pizza = new Ingredient("pizza", "https://cdn-icons-png.flaticon.com/128/2438/2438412.png", null, "white", {
+    onCreate(el) {
+        alert("mama mia")
+    },
+})
+pizza.setRecipe(tomato, dough, ov)
 tomato.setRecipe(raspberry, garden, seeds, water)
 const spaghetti = new Ingredient("spaghetti", "https://cdn-icons-png.flaticon.com/128/3480/3480618.png", null, "white", {
     onCreate(el) {

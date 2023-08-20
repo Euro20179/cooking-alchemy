@@ -174,10 +174,10 @@ div {
 
 .ingredient {
     overflow: hidden;
-    width: 7em;
+    width: 128px;
     text-overflow: ellipsis;
     text-align: center;
-    min-height: 7em;
+    min-height: 128px;
     aspect-ratio: 1 / 1;
     cursor: pointer;
     display: flex;
