@@ -33,11 +33,9 @@ class Ingredient {
     modifiers: Modifier[]
     hooks?: IngredientHooks
     static count = 0
-    static instances: Ingredient[] = []
 
     constructor(name: string, image: string | null, color: string | null, textColor?: string | null, hooks?: IngredientHooks) {
         Ingredient.count++
-        Ingredient.instances.push(this)
         this.image = image
         this.name = name
         this.color = color

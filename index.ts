@@ -1,6 +1,6 @@
 let draggedElement: null | HTMLElement
 let movedElement: null | HTMLElement
-let craftedItems: Ingredient[] =  []
+let craftedItems: Ingredient[] = []
 const itemSearch = document.getElementById("item-search") as HTMLInputElement
 const ingredientHolder = document.getElementById("ingredient-holder") as HTMLDivElement
 const finalIngredientHolder = document.getElementById("final-ingredient-holder") as HTMLDivElement
@@ -110,26 +110,22 @@ craftButton.addEventListener("click", e => {
     craftedItems = []
     if (device === oven) usedIngredients.unshift(ov)
 
-    const validRecipies = []
-    for (const ingredient of Ingredient.instances) {
-        validRecipies.push(ingredient.recipe)
-    }
-
     for (let item of usedIngredients) {
-        if (item instanceof ModifierIngredient && !validRecipies.some(r => r?.every(ingredient => usedIngredients.includes(ingredient)))) {
+        if (item.creates.length) {
+            for (let [_, result] of item.creates) {
+                if (result.checkRecipe(usedIngredients)) {
+                    craftedItems.push(result)
+                }
+            }
+        }
+        if (item instanceof ModifierIngredient && !craftedItems.length) {
             let modified = item.modifyIngredients(usedIngredients.filter(v => v !== item))
             if (!modified) continue
             items[modified.getDisplayName() as keyof typeof items] = modified as Ingredient & ModifierIngredient
             craftedItems.push(modified)
         }
-        if (!item.creates.length) continue
-        for (let [_, result] of item.creates) {
-            if (result.checkRecipe(usedIngredients)) {
-                craftedItems.push(result)
-                if (craftedItems.length >= 3) {
-                    alert("You have created multiple ingredients")
-                }
-            }
+        if (craftedItems.length >= 3) {
+            alert("You have created multiple ingredients")
         }
     }
     for (let elem of ingElements) {
