@@ -1,5 +1,6 @@
 let draggedElement: null | HTMLElement
 let movedElement: null | HTMLElement
+let craftedItems: Ingredient[] =  []
 const itemSearch = document.getElementById("item-search") as HTMLInputElement
 const ingredientHolder = document.getElementById("ingredient-holder") as HTMLDivElement
 const finalIngredientHolder = document.getElementById("final-ingredient-holder") as HTMLDivElement
@@ -88,7 +89,7 @@ playerIngredients.push = new Proxy(playerIngredients.push, {
             else {
                 finalIngredientHolder.append(argsList[0].getElement())
             }
-            argsList[0].create()
+            argsList[0].create(craftedItems.length >= 3 ? true : false)
         }
         return target.bind(thisArg)(argsList[0])
     }
@@ -106,7 +107,7 @@ craftButton.addEventListener("click", e => {
         device = oven
     } else device = bowl
     let usedIngredients = Array.from(ingElements, v => items[v.getAttribute("data-name") as keyof typeof items])
-    let craftedItems: Ingredient[] = []
+    craftedItems = []
     if (device === oven) usedIngredients.unshift(ov)
 
     const validRecipies = []
@@ -116,8 +117,6 @@ craftButton.addEventListener("click", e => {
 
     for (let item of usedIngredients) {
         if (item instanceof ModifierIngredient && !validRecipies.some(r => r?.every(ingredient => usedIngredients.includes(ingredient)))) {
-            console.log(usedIngredients)
-            console.log(validRecipies)
             let modified = item.modifyIngredients(usedIngredients.filter(v => v !== item))
             if (!modified) continue
             items[modified.getDisplayName() as keyof typeof items] = modified as Ingredient & ModifierIngredient
@@ -127,6 +126,9 @@ craftButton.addEventListener("click", e => {
         for (let [_, result] of item.creates) {
             if (result.checkRecipe(usedIngredients)) {
                 craftedItems.push(result)
+                if (craftedItems.length >= 3) {
+                    alert("You have created multiple ingredients")
+                }
             }
         }
     }
