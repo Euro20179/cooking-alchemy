@@ -247,6 +247,12 @@ div {
     overflow: visible;
 }
 
+.final-item-text {
+    position: absolute;
+    bottom: 97%;
+    font-size: 25px;
+}
+
 .arrow {
     position: absolute;
     font-size: 100px;
