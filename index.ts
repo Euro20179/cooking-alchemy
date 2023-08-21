@@ -49,7 +49,7 @@ itemSearch.addEventListener("input", e => {
 })
 
 document.addEventListener("keydown", e => {
-    if(e.key === "/"){
+    if (e.key === "/") {
         itemSearch.focus()
         e.preventDefault()
         itemSearch.value = ""
@@ -61,7 +61,7 @@ const bowl = document.getElementById('bowl') as HTMLDivElement
 const craftButton = document.getElementById("craft-button") as HTMLButtonElement
 const emptyButton = document.getElementById("empty-button") as HTMLButtonElement
 
-function deviceHoverListener(e: MouseEvent){
+function deviceHoverListener(e: MouseEvent) {
     if (!draggedElement) { return }
     let clone = draggedElement?.cloneNode(true) as HTMLDivElement
     clone.addEventListener("click", e => {
@@ -82,7 +82,7 @@ let playerIngredients = [rso, flour, pepper, water, lemon, sugar, egg, fire]
 playerIngredients.push = new Proxy(playerIngredients.push, {
     apply(target, thisArg, argsList) {
         if (!playerIngredients.includes(argsList[0])) {
-            if(argsList[0].creates.length){
+            if (argsList[0].creates.length) {
                 ingredientHolder.append(argsList[0].getElement())
             }
             else {
@@ -109,8 +109,15 @@ craftButton.addEventListener("click", e => {
     let craftedItems: Ingredient[] = []
     if (device === oven) usedIngredients.unshift(ov)
 
+    const validRecipies = []
+    for (const ingredient of Ingredient.instances) {
+        validRecipies.push(ingredient.recipe)
+    }
+
     for (let item of usedIngredients) {
-        if (item instanceof ModifierIngredient) {
+        if (item instanceof ModifierIngredient && !validRecipies.some(r => r?.every(ingredient => usedIngredients.includes(ingredient)))) {
+            console.log(usedIngredients)
+            console.log(validRecipies)
             let modified = item.modifyIngredients(usedIngredients.filter(v => v !== item))
             if (!modified) continue
             items[modified.getDisplayName() as keyof typeof items] = modified as Ingredient & ModifierIngredient

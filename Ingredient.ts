@@ -33,9 +33,11 @@ class Ingredient {
     modifiers: Modifier[]
     hooks?: IngredientHooks
     static count = 0
+    static instances: Ingredient[] = []
 
     constructor(name: string, image: string | null, color: string | null, textColor?: string | null, hooks?: IngredientHooks) {
         Ingredient.count++
+        Ingredient.instances.push(this)
         this.image = image
         this.name = name
         this.color = color
@@ -165,11 +167,11 @@ class ModifierIngredient extends Ingredient {
         return copy
     }
 
-    hasOneIngredient(ing: Ingredient[]){
+    hasOneIngredient(ing: Ingredient[]) {
         return ing.length === 1
     }
 
-    ingredientDoesNotHaveModifier(ing: Ingredient){
+    ingredientDoesNotHaveModifier(ing: Ingredient) {
         return !ing.modifiers.includes(this.modifier)
     }
 }
