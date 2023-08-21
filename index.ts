@@ -2,6 +2,7 @@ let draggedElement: null | HTMLElement
 let movedElement: null | HTMLElement
 const itemSearch = document.getElementById("item-search") as HTMLInputElement
 const ingredientHolder = document.getElementById("ingredient-holder") as HTMLDivElement
+const finalIngredientHolder = document.getElementById("final-ingredient-holder") as HTMLDivElement
 const alertDiv = document.getElementById("alert-text") as HTMLDivElement
 const oven = document.getElementById('oven') as HTMLDivElement
 const counter = document.getElementById('count') as HTMLSpanElement
@@ -81,7 +82,12 @@ let playerIngredients = [rso, flour, pepper, water, lemon, sugar, egg, fire]
 playerIngredients.push = new Proxy(playerIngredients.push, {
     apply(target, thisArg, argsList) {
         if (!playerIngredients.includes(argsList[0])) {
-            ingredientHolder.append(argsList[0].getElement())
+            if(argsList[0].creates.length){
+                ingredientHolder.append(argsList[0].getElement())
+            }
+            else {
+                finalIngredientHolder.append(argsList[0].getElement())
+            }
             argsList[0].create()
         }
         return target.bind(thisArg)(argsList[0])
