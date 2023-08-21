@@ -80,11 +80,13 @@ class Ingredient {
         }
     }
 
-    create(multiple: boolean) {
+    create(canNotify: boolean) {
         let dispName = this.getDisplayName()
         if (this.hooks?.onCreate)
             this.hooks.onCreate(this.getElement())
-        else if (!multiple) alert(`You have crafted ${dispName}`)
+        else if(canNotify){
+            alert(`You have created ${dispName}`)
+        }
         if (!items[dispName as keyof typeof items]) {
             items[dispName as keyof typeof items] = this as any
         }

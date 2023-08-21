@@ -1,6 +1,5 @@
 let draggedElement: null | HTMLElement
 let movedElement: null | HTMLElement
-let craftedItems: Ingredient[] = []
 const itemSearch = document.getElementById("item-search") as HTMLInputElement
 const ingredientHolder = document.getElementById("ingredient-holder") as HTMLDivElement
 const finalIngredientHolder = document.getElementById("final-ingredient-holder") as HTMLDivElement
@@ -89,7 +88,6 @@ playerIngredients.push = new Proxy(playerIngredients.push, {
             else {
                 finalIngredientHolder.append(argsList[0].getElement())
             }
-            argsList[0].create(craftedItems.length >= 3 ? true : false)
         }
         return target.bind(thisArg)(argsList[0])
     }
@@ -107,13 +105,13 @@ craftButton.addEventListener("click", e => {
         device = oven
     } else device = bowl
     let usedIngredients = Array.from(ingElements, v => items[v.getAttribute("data-name") as keyof typeof items])
-    craftedItems = []
+    let craftedItems: Ingredient[] = []
     if (device === oven) usedIngredients.unshift(ov)
 
     for (let item of usedIngredients) {
         if (item.creates.length) {
             for (let [_, result] of item.creates) {
-                if (result.checkRecipe(usedIngredients)) {
+                if (result.checkRecipe(usedIngredients) && !craftedItems.includes(result)) {
                     craftedItems.push(result)
                 }
             }
@@ -124,18 +122,20 @@ craftButton.addEventListener("click", e => {
             items[modified.getDisplayName() as keyof typeof items] = modified as Ingredient & ModifierIngredient
             craftedItems.push(modified)
         }
-        if (craftedItems.length >= 3) {
-            alert("You have created multiple ingredients")
-        }
     }
     for (let elem of ingElements) {
         elem.remove()
     }
     if (!craftedItems.length) {
-        playerIngredients.push(items['garbage'])
+        craftedItems.push(items['garbage'])
+    }
+    let itemCanNotify = craftedItems.length < 2
+    if (craftedItems.length >= 2) {
+        alert("You have created multiple ingredients")
     }
     for (let item of craftedItems) {
         playerIngredients.push(item)
+        item.create(itemCanNotify)
     }
     setCounter(`${ingredientHolder.querySelectorAll('.ingredient').length}/${Ingredient.count + ModifierIngredient.count} ingredients`)
 })
