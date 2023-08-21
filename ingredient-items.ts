@@ -92,7 +92,7 @@ const rc = new Ingredient("raspberry cookie", "https://cdn-icons-png.flaticon.co
     }
 })
 
-rc.setRecipe(rd)
+rc.setRecipe(ov, rd)
 
 const lemon = new ModifierIngredient(Modifier.Sour, "lemon", "https://cdn-icons-png.flaticon.com/128/7484/7484115.png", null, "white", {
     canModify: function (ing) {
