@@ -240,7 +240,6 @@ div {
     height: fit-content;
     background-color: #aaaaaa33;
     position: absolute;
-    cursor: pointer;
     right: -220px;
     transition: 0.5s;
     gap: 3em;
@@ -248,8 +247,7 @@ div {
 }
 
 .final-item-text {
-    position: absolute;
-    bottom: 97%;
+    margin-top: 18px;
     font-size: 25px;
 }
 
@@ -258,7 +256,7 @@ div {
     font-size: 100px;
     right: 100%;
     width: 90px;
-    top: 40%; 
+    top: 40%;
 }
 
 .final-ingredients:hover {
