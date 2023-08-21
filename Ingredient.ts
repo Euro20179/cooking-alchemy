@@ -60,6 +60,7 @@ class Ingredient {
         for (let item of items) {
             item.creates.push([items, this])
         }
+        return this
     }
 
     checkRecipe(ingList: Ingredient[]) {

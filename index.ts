@@ -78,7 +78,7 @@ oven?.addEventListener("mouseover", deviceHoverListener)
 
 const ingredients = []
 
-let playerIngredients = [rso, flour, pepper, water, lemon, sugar, egg, fire]
+let playerIngredients = [rso, flour, pepper, water, lemon, sugar, egg, fire, salt]
 
 playerIngredients.push = new Proxy(playerIngredients.push, {
     apply(target, thisArg, argsList) {

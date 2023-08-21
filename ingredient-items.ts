@@ -179,8 +179,11 @@ cookieDough.setRecipe(dough, sugar)
 let cookie = new Ingredient("cookie", 'https://cdn-icons-png.flaticon.com/128/541/541732.png', "tan", "black")
 cookie.setRecipe(ov, cookieDough)
 
+let salt = new Ingredient("salt", "https://cdn-icons-png.flaticon.com/128/736/736882.png", "white", "black")
+
 //this is for items that do not have a recipe
 let items = {
+    salt,
     "raspberry seed oil": rso,
     pepper: pepper,
     garbage,
