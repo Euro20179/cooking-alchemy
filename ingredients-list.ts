@@ -233,6 +233,13 @@ const ingredientsJson: {[key: string]: IngredientJsonSchema} = {
         },
         "recipe": ["tomato", "pasta"]
     },
+    "italy": {
+        "image": "https://imgs.search.brave.com/OYihjnz29-zpUA0R91DlCb5HJ4CUMKZ5DswRSLIG_kA/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTIx/MDQzMDY4L3Bob3Rv/L2l0YWx5LmpwZz9z/PTYxMng2MTImdz0w/Jms9MjAmYz1TSVJD/aWtmLVEwV2VEWE42/QndCa0RmVDU1OXFS/T3lSRE9LSXVINDF1/ZExjPQ",
+        "css": {
+            "color": "white"
+        },
+        "recipe": ["spaghetti", "pizza"]
+    },
     "lemonade": {
         "image": "https://cdn-icons-png.flaticon.com/128/753/753929.png",
         "css": {

@@ -111,3 +111,7 @@ items['lemonade'].hooks.recipeCheck = function({ water, lemon, sugar }) {
     }
     return 'continue'
 }
+
+items['italy'].hooks.onCreate = function(){
+    alert("Welcome to italy :))))")
+}
