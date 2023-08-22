@@ -135,8 +135,8 @@ craftButton.addEventListener("click", e => {
     if (!craftedItems.length) {
         craftedItems.push(items['garbage'])
     }
-    let itemCanNotify = craftedItems.length < 2
-    if (craftedItems.length >= 2) {
+    let itemCanNotify = craftedItems.length < 3
+    if (craftedItems.length >= 3) {
         alert("You have created multiple ingredients")
     }
     for (let item of craftedItems) {

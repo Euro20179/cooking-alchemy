@@ -1,4 +1,4 @@
-function getModifierFromString(name: "sour" | "spicy" | "sweet" | "boiled" | "cooked"){
+function getModifierFromString(name: "sour" | "spicy" | "sweet" | "boiled" | "cooked") {
     return {
         "sour": Modifier.Sour,
         "sweet": Modifier.Sweet,
@@ -14,14 +14,14 @@ let items: { [key: string]: Ingredient | ModifierIngredient } = {
 
 for (let item in ingredientsJson) {
     let itemData = ingredientsJson[item as keyof typeof ingredientsJson]
-    if(itemData.modifier){
+    if (itemData.modifier) {
 
     }
     let ing;
-    if(itemData.modifier){
+    if (itemData.modifier) {
         ing = new ModifierIngredient(getModifierFromString(itemData.modifier), item, itemData.image || null, itemData.css || null)
     }
-    else{
+    else {
         ing = new Ingredient(item, itemData.image || null, itemData.css || null)
     }
     items[item] = ing
@@ -37,30 +37,30 @@ for (let item in ingredientsJson) {
     items[item].setRecipe(...recipe)
 };
 
-(items['boiling water'] as ModifierIngredient).hooks.canModify = function(ing) {
+(items['boiling water'] as ModifierIngredient).hooks.canModify = function (ing) {
     return this.hasOneIngredient(ing) && this.ingredientDoesNotHaveModifier(ing[0])
 };
 
-(items['oven'] as ModifierIngredient).hooks.canModify = function(ing) {
+(items['oven'] as ModifierIngredient).hooks.canModify = function (ing) {
     return this.hasOneIngredient(ing) && this.ingredientDoesNotHaveModifier(ing[0])
 };
 
-(items['pepper'] as ModifierIngredient).hooks.canModify = function(ing) {
+(items['pepper'] as ModifierIngredient).hooks.canModify = function (ing) {
     return this.hasOneIngredient(ing) && this.ingredientDoesNotHaveModifier(ing[0])
 };
 
-items['raspberry water'].hooks.onCreate = function(el) {
+items['raspberry water'].hooks.onCreate = function (el) {
     el.addEventListener("contextmenu", e => {
         e.preventDefault()
         alert("You drink some raspberry water")
     })
 }
 
-items['garbage'].hooks.onCreate = function(el) {
+items['garbage'].hooks.onCreate = function (el) {
     alert(`YOu created ${el.getAttribute("data-name")}!!!!`)
 }
 
-items['contamination'].hooks.onCreate = function(el) {
+items['contamination'].hooks.onCreate = function (el) {
     alert("Uh oh all your food was spoiled and has been emptied for you")
     for (let item of playerIngredients) {
         item.getElement().remove()
@@ -71,24 +71,24 @@ items['nuclear waste'].hooks.onCreate = () => alert("uh oh")
 
 items['nuclear bomb'].hooks.onCreate = () => alert("the cia is watching")
 
-items['north korea'].hooks.onCreate = function() {
+items['north korea'].hooks.onCreate = function () {
     alert("all hail kim jong-un")
     const body = document.getElementById('body') as HTMLBodyElement
     body.style.backgroundImage = "url(https://www.abflags.com/_flags/flags-of-the-world/Korea%2C%20North%20flag/Korea%2C%20North%20flag-XXL-anim.gif)"
 }
 
-items['raspberry dough'].hooks.onCreate = function() {
+items['raspberry dough'].hooks.onCreate = function () {
     alert("yummy 😁")
 }
 
-items['raspberry cookie'].hooks.onCreate = function() {
+items['raspberry cookie'].hooks.onCreate = function () {
     alert("just like grandma used to make♥️")
 };
 
-(items['lemon'] as ModifierIngredient).hooks.canModify = function(ing) {
+(items['lemon'] as ModifierIngredient).hooks.canModify = function (ing) {
     return this.hasOneIngredient(ing) && this.ingredientDoesNotHaveModifier(ing[0])
 };
-(items['sugar'] as ModifierIngredient).hooks.canModify = function(ing) {
+(items['sugar'] as ModifierIngredient).hooks.canModify = function (ing) {
     return this.hasOneIngredient(ing) && this.ingredientDoesNotHaveModifier(ing[0])
 };
 
@@ -101,8 +101,9 @@ items['alive chicken'].hooks.onCreate = () => alert("you grew your very own chic
 items['tomato'].hooks.onCreate = () => alert("you've discovered a new mutation")
 items['pizza'].hooks.onCreate = () => alert("mama mia")
 items['spaghetti'].hooks.onCreate = () => alert("you've made a delicious dish of spaghetti!! from garbage to this??")
+items['watermelon'].hooks.onCreate = () => alert("you've discovered a melony mutation")
 
-items['lemonade'].hooks.recipeCheck = function({ water, lemon, sugar }) {
+items['lemonade'].hooks.recipeCheck = function ({ water, lemon, sugar }) {
     if (water?.hasModifier(Modifier.Sour) && !lemon && sugar) {
         return true
     }
@@ -112,6 +113,6 @@ items['lemonade'].hooks.recipeCheck = function({ water, lemon, sugar }) {
     return 'continue'
 }
 
-items['italy'].hooks.onCreate = function(){
+items['italy'].hooks.onCreate = function () {
     alert("Welcome to italy :))))")
 }

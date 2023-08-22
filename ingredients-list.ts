@@ -270,5 +270,12 @@ const ingredientsJson: {[key: string]: IngredientJsonSchema} = {
             "background-color": "white"
         },
         "starter": true
+    },
+    "watermelon": {
+        "image": "https://cdn-icons-png.flaticon.com/128/5582/5582664.png",
+        "css": {
+            "color": "white"
+        },
+        "recipe": ["garden", "seeds", "tomato", "water"]
     }
 }
