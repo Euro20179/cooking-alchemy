@@ -31,23 +31,25 @@ class Ingredient {
     recipe: Ingredient[] | null
     creates: [Ingredient[], Ingredient][]
     modifiers: Modifier[]
-    hooks?: IngredientHooks
+    hooks: IngredientHooks
+    #css: {[key: string]: string} | null
     static count = 0
 
-    constructor(name: string, image: string | null, color: string | null, textColor?: string | null, hooks?: IngredientHooks) {
+    constructor(name: string, image: string | null, css: {[key: string]: string} | null, hooks?: IngredientHooks) {
         Ingredient.count++
         this.image = image
         this.name = name
-        this.color = color
-        this.textColor = textColor ?? null
-        this.hooks = hooks
+        this.color = css?.['background-color'] || null
+        this.textColor = css?.color ?? null
+        this.hooks = hooks || {}
         this.creates = []
         this.recipe = null
         this.modifiers = []
+        this.#css = css
     }
 
     copyWithModifier(modifier: Modifier) {
-        let ing = new Ingredient(this.name, this.image, this.color, this.textColor, this.hooks)
+        let ing = new Ingredient(this.name, this.image, this.#css, this.hooks)
         ing.modifiers = [...this.modifiers] //make a copy of modifiers otherwise when one modifier list is modified the other will be as well
         ing.modifiers.push(modifier)
         return ing
@@ -120,6 +122,9 @@ class Ingredient {
         if (this.textColor) {
             element.style.color = this.textColor
         }
+        for(let prop in this.#css){
+            element.style[prop as any] = this.#css[prop]
+        }
         element.style.backgroundColor = this.color ?? ""
         element.draggable = true
         element.addEventListener("dragstart", e => {
@@ -150,13 +155,13 @@ type ModifierIngredientHooks = IngredientHooks & {
 
 class ModifierIngredient extends Ingredient {
     modifier: Modifier
-    hooks?: ModifierIngredientHooks
+    hooks: ModifierIngredientHooks
     static count = 0
-    constructor(modifier: Modifier, name: string, image: string | null, color: string | null, textColor: string | null, hooks?: ModifierIngredientHooks) {
+    constructor(modifier: Modifier, name: string, image: string | null, css: {[key: string]: string} | null, hooks?: ModifierIngredientHooks) {
         ModifierIngredient.count++
-        super(name, image, color, textColor, hooks)
+        super(name, image, css, hooks)
         this.modifier = modifier
-        this.hooks = hooks
+        this.hooks = hooks || {}
     }
     modifyIngredients(ing: Ingredient[]) {
         if (this.hooks?.canModify) {

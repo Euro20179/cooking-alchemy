@@ -77,7 +77,13 @@ oven?.addEventListener("mouseover", deviceHoverListener)
 
 const ingredients = []
 
-let playerIngredients = [rso, flour, pepper, water, lemon, sugar, egg, fire, salt]
+let playerIngredients: Ingredient[] = []
+
+for(let item in ingredientsJson){
+    if(ingredientsJson[item].starter){
+        playerIngredients.push(items[item])
+    }
+}
 
 playerIngredients.push = new Proxy(playerIngredients.push, {
     apply(target, thisArg, argsList) {
@@ -106,7 +112,7 @@ craftButton.addEventListener("click", e => {
     } else device = bowl
     let usedIngredients = Array.from(ingElements, v => items[v.getAttribute("data-name") as keyof typeof items])
     let craftedItems: Ingredient[] = []
-    if (device === oven) usedIngredients.unshift(ov)
+    if (device === oven) usedIngredients.unshift(items['oven'])
 
     for (let item of usedIngredients) {
         if (item.creates.length) {
