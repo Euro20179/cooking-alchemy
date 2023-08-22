@@ -169,7 +169,6 @@ class ModifierIngredient extends Ingredient {
                 return false
         }
         let copy = ing[0].copyWithModifier(this.modifier)
-        copy.setRecipe(this, ...ing)
         return copy
     }
 

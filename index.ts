@@ -111,7 +111,10 @@ craftButton.addEventListener("click", e => {
         device = oven
     } else device = bowl
     let usedIngredients = Array.from(ingElements, v => items[v.getAttribute("data-name") as keyof typeof items])
+
     let craftedItems: Ingredient[] = []
+    let modifiedCraftedItems: Ingredient[] = []
+
     if (device === oven) usedIngredients.unshift(items['oven'])
 
     for (let item of usedIngredients) {
@@ -126,20 +129,23 @@ craftButton.addEventListener("click", e => {
             let modified = item.modifyIngredients(usedIngredients.filter(v => v !== item))
             if (!modified) continue
             items[modified.getDisplayName() as keyof typeof items] = modified as Ingredient & ModifierIngredient
-            craftedItems.push(modified)
+            modifiedCraftedItems.push(modified)
         }
     }
     for (let elem of ingElements) {
         elem.remove()
     }
-    if (!craftedItems.length) {
+
+    let totalItems = craftedItems.concat(modifiedCraftedItems)
+
+    if (!totalItems.length) {
         craftedItems.push(items['garbage'])
     }
-    let itemCanNotify = craftedItems.length < 2
-    if (craftedItems.length >= 2) {
+    let itemCanNotify = totalItems.length < 2
+    if (totalItems.length >= 2) {
         alert("You have created multiple ingredients")
     }
-    for (let item of craftedItems) {
+    for (let item of totalItems) {
         playerIngredients.push(item)
         item.create(itemCanNotify)
     }
