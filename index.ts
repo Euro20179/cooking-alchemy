@@ -138,8 +138,10 @@ craftButton.addEventListener("click", e => {
 
     let totalItems = craftedItems.concat(modifiedCraftedItems)
 
+    console.log(totalItems)
+
     if (!totalItems.length) {
-        craftedItems.push(items['garbage'])
+        totalItems.push(items['garbage'])
     }
     let itemCanNotify = totalItems.length < 2
     if (totalItems.length >= 2) {
