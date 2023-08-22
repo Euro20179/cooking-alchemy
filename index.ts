@@ -110,6 +110,7 @@ craftButton.addEventListener("click", e => {
         ingElements = oven.querySelectorAll(".ingredient")
         device = oven
     } else device = bowl
+    if (ingElements.length < 1) return
     let usedIngredients = Array.from(ingElements, v => items[v.getAttribute("data-name") as keyof typeof items])
 
     let craftedItems: Ingredient[] = []
