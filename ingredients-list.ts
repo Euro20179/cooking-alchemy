@@ -71,6 +71,14 @@ const ingredientsJson: {[key: string]: IngredientJsonSchema} = {
         },
         "recipe": ["water", "flour"]
     },
+    "bread": {
+        "image": "https://cdn-icons-png.flaticon.com/128/7093/7093198.png",
+        "recipe": ["dough", "oven"]
+    },
+    "french toast": {
+        "image": "https://cdn-icons-png.flaticon.com/128/8512/8512345.png",
+        "recipe": ["bread", "egg"]
+    },
     "pasta": {
         "image": "https://cdn-icons-png.flaticon.com/128/8880/8880560.png",
         "css": {

@@ -40,7 +40,7 @@ class Ingredient {
         this.image = image
         this.name = name
         this.color = css?.['background-color'] || null
-        this.textColor = css?.color ?? null
+        this.textColor = css?.color ?? "white"
         this.hooks = hooks || {}
         this.creates = []
         this.recipe = null
