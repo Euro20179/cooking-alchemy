@@ -7,6 +7,21 @@ const alertDiv = document.getElementById("alert-text") as HTMLDivElement
 const oven = document.getElementById('oven') as HTMLDivElement
 const counter = document.getElementById('count') as HTMLSpanElement
 
+let pageOnFire = false
+
+function endPageFire(){
+    pageOnFire = false
+    document.body.setAttribute("style", "")
+}
+
+function startPageFire(){
+    pageOnFire = true
+
+    alert("Oh no the page has caught on fire!!\nGet some water fast!!!")
+
+    document.body.style.background = "url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi0.wp.com%2Fwww.throughourlives.com%2Fwp-content%2Fuploads%2F2021%2F06%2Fa8367730317b31e794253218502c591e.gif%3Ffit%3D390%252C498&f=1&nofb=1&ipt=025b8afb96d00ec75c5b4b7d6b04f6c19feff09932d0e5e37d722f05638869ea&ipo=images')"
+}
+
 function alert(message: string) {
     const span = document.createElement('span')
     span.setAttribute("class", "success-text")
@@ -117,6 +132,14 @@ craftButton.addEventListener("click", e => {
 
     if (device === oven) usedIngredients.unshift(items['oven'])
 
+    if(usedIngredients[0].name === "water"){
+        endPageFire()
+    }
+
+    if(usedIngredients[0].name === 'oven' && Math.random() > 0.99){
+        startPageFire()
+    }
+
     for (let item of usedIngredients) {
         if (item.creates.length) {
             for (let [_, result] of item.creates) {
@@ -158,4 +181,3 @@ emptyButton.addEventListener("click", e => {
     oven.replaceChildren("")
 })
 setCounter(`${ingredientHolder.querySelectorAll('.ingredient').length}/${Ingredient.count + ModifierIngredient.count} ingredients`)
-
