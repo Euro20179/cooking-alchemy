@@ -133,7 +133,7 @@ craftButton.addEventListener("click", e => {
 
     if (device === oven) usedIngredients.unshift(items['oven'])
 
-    if(usedIngredients[0].name === "water"){
+    if(usedIngredients[0].name === "water" && pageOnFire){
         endPageFire()
     }
 
