@@ -275,7 +275,6 @@ const ingredientsJson: {[key: string]: IngredientJsonSchema} = {
         "image": "https://cdn-icons-png.flaticon.com/128/736/736882.png",
         "css": {
             "color": "black",
-            "background-color": "white"
         },
         "starter": true
     },

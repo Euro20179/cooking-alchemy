@@ -63,6 +63,7 @@ items['garbage'].hooks.onCreate = function (el) {
 items['contamination'].hooks.onCreate = function (el) {
     alert("Uh oh all your food was spoiled and has been emptied for you")
     for (let item of playerIngredients) {
+        if (item.name.match('contamination')) continue
         item.getElement().remove()
     }
 }
